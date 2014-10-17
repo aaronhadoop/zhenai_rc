@@ -139,10 +139,9 @@ System.out.println("values: " + values);
 								}
 							
 						 } else if (preCondition1.equals(">")) {
-							 
+							  
 						 }
-						  
-        
+          
 					}      
 				}   
 			}                       
