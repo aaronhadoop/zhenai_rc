@@ -8,7 +8,7 @@ public class PreBoltHelper {
 	
 	public static boolean isContains(List<String> rcTaskVO3List, String pf) {
 		String[] split = rcTaskVO3List.get(0).split("\t");
-		String s = split[split.length - 1];
+		String s = split[split.length - 1]; // s: (1,2)&(3,4)
 		
 		String[] s2 = s.split("&");
 		
@@ -21,7 +21,7 @@ public class PreBoltHelper {
 
 	public static boolean isContains2(List<String> rcTaskVO3List, String pf) {
 		String[] split = rcTaskVO3List.get(0).split("\t");    
-		String s = split[split.length - 1];
+		String s = split[split.length - 1]; // s: (1,2)&(3,4)         
 		                    
 		String[] s2 = s.split("&");     
 		

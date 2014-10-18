@@ -1,1 +1,10 @@
-zhenai data realtime computing V1.0  
+zhenai data realtime computing V1.0
+现在的问题是：
+1、基本功能COUNT、SUM、AVG、MAX、MIN已实现
+2、抽象Topology没实现。
+为什么没实现？
+computing(..)
+
+
+
+滚动窗口Topology

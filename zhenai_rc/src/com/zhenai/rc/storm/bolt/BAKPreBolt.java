@@ -118,13 +118,13 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 	}                            
 	
                                      
-	// 核心函数  指标计算
+	// 核心函数  指标计算  
 	private void computingIdx(String pf, String oper_type, String user_id, Double pay_amt) { // key--pf		value--COUNT(user_id),COUNT(DISTINCT(user_id)),SUM(pay_amt)
 		 // 求max、min
 		 String key2 = pf;       
 		 Double max_pay_amt = maxMap.get(key2);
 		 Double min_pay_amt = minMap.get(key2);
-		  
+		                 
 		 String key = pf + user_id;                                 
 		 boolean isHasValue = false;         
 		 if(distinctList.contains(key)) {                             
@@ -140,12 +140,12 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 				 String[] vals = val.split(",");        
 				 int count_user_id = Integer.valueOf(vals[0]) + 1;
 				 int count_dis_user_id = Integer.valueOf(vals[1]) + (isHasValue ? 0 : 1); 
-				 double sum_pay_amt = Double.valueOf(vals[2]) + pay_amt;  
-				 double avg_pay_amt = sum_pay_amt / count_dis_user_id;
+				 double sum_pay_amt = Double.valueOf(vals[2]) + pay_amt;    
+				 double avg_pay_amt = sum_pay_amt / count_dis_user_id;    
 //				 double avg_pay_amt = sum_pay_amt / count_dis_user_id; 
 //				 max_pay_amt = max_pay_amt(pay_amt);          
 //				 min_pay_amt = min_pay_amt(pay_amt);       
-				           
+				            
 				 // 最大值
 //				 String key2 = pf;     
 //				 Double max_pay_amt = maxMap.get(key2);  

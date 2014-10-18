@@ -66,7 +66,7 @@ public class PreBolt extends BaseBasicBolt {
     	rcTaskVO4List.add("4,user_id,0,0");
     	rcTaskVO4List.add("4,user_id,1,0");
     	rcTaskVO4List.add("4,pay_amt,2,0");  
-    }                          
+    }                              
 	  
 	@Override  
 	public void execute(Tuple tuple, BasicOutputCollector collector) {
@@ -78,7 +78,7 @@ public class PreBolt extends BaseBasicBolt {
 		System.out.println("###rcTaskVO3List: " + rcTaskVO3List);
 		System.out.println("###rcTaskVO4List: " + rcTaskVO4List);
 		         
-		try {                                                                                                                    
+		try {                                                                                                                      
 			System.setOut(new PrintStream(new FileOutputStream(new File("E:\\0_tmp\\data\\zhenai_rc\\zhenai_rc_PreBolt_result"), true)));
 			System.out.println("\nPreBolt_msg: "+tuple.getString(0) + " -------------counter = " + (counter++));     
 			// one tuple one record  
@@ -92,12 +92,12 @@ public class PreBolt extends BaseBasicBolt {
 					 // 过滤接口，只取t_fw_00001的数据，这一步会由Kafka Consumer来做    
 					 if (fields[0].equals("t_fw_00001")) { 
 						 /*     
-						  1、前置条件处理    
+						  1、前置条件处理      
 						  */                    
 						 // 过滤oper_type，只取oper_type为1的数据   
 						 // 获取前置条件【=1】             
 						 String preCondition = rcTaskVO1List.get(0).split(",")[2];
-						 // 使用前置条件 
+						 // 使用前置条件 		  
 						 String preCondition1 = preCondition.substring(preCondition.length() - 2, preCondition.length() - 1);
 						 String preCondition2 = preCondition.substring(preCondition.length() - 1, preCondition.length());
 						 // 转化"=1" 
@@ -125,22 +125,25 @@ System.out.println("values: " + values);
 							    } else if(PreBoltHelper.isContains2(rcTaskVO3List, pf)) {
 										pf ="34";      
 							    }      	                             
-								      	    
-									String oper_type = splits[2];         	    
-									String user_id = splits[3];                 
-									double pay_amt = Double.valueOf(splits[4]);                
+								      
+    								// t_fw_00001      3       1       1001    100.1
+									String oper_type = splits[2];               	    
+									String user_id = splits[3];                               
+									double pay_amt = Double.valueOf(splits[4]);                  
 		System.out.println("\npf: " + pf + ",oper_type: " + oper_type + ",user_id: " + user_id + ",pay_amt: " + pay_amt);      
 									System.out.println("\ncomputingIdx start...");
-									/*  
+									/*     
 									 4、指标计算                                  
-									 */            
+									 */             
 									computingIdx(pf, oper_type, user_id, pay_amt);  
 									System.out.println("computingIdx over..."); 
 								}
 							
 						 } else if (preCondition1.equals(">")) {
-							  
-						 }
+							             
+						 } else if (preCondition1.equals("<")) {
+							 
+						}
           
 					}      
 				}   
@@ -152,7 +155,7 @@ System.out.println("values: " + values);
 		}       
 	}        
        
-	// 核心函数  指标计算
+	// 核心函数  指标计算  五种类型都计算
 	private void computingIdx(String pf, String oper_type, String user_id, Double pay_amt) { // key--pf		value--COUNT(user_id),COUNT(DISTINCT(user_id)),SUM(pay_amt)
 		 String key = pf + user_id;                                      
 		 boolean isHasValue = false;           
@@ -164,27 +167,27 @@ System.out.println("values: " + values);
 	  	                    
 		 if (checkMap()) {                   
 			 String val = storeMap.get(pf);                                      
-			 if(val != null) {                
+			 if(val != null) {                  
 				 String[] vals = val.split(",");    
 				 int count_user_id = Integer.valueOf(vals[0]) + 1;
 				 int count_dis_user_id = Integer.valueOf(vals[1]) + (isHasValue ? 0 : 1); 
 				 double sum_pay_amt = Double.valueOf(vals[2]) + pay_amt;  
 //				 double avg_pay_amt = sum_pay_amt / count_dis_user_id; 
-				 double max_pay_amt = max_pay_amt(pay_amt);          
+				 double max_pay_amt = max_pay_amt(pay_amt);           
 				 double min_pay_amt = min_pay_amt(pay_amt);          
-				          
+				           
 				 val = count_user_id + "," + count_dis_user_id + "," + sum_pay_amt + "," + max_pay_amt + "," + min_pay_amt;  
-			 } else {        
+			 } else {         
 				val = 1 + "," + (isHasValue ? 0 : 1) + "," + pay_amt + 0  + "," + 0;
 			}       
 			 System.out.println("pf: " + pf + ", " + "val: " + val);
 			 storeMap.put(pf, val);  
 			 System.out.println("*****storeMap: " + storeMap);
-			     
-			 
-			 
+			       
+			   
+			   
 			 for(Map.Entry<String, String> entry : storeMap.entrySet()) {
-				 String k = entry.getKey();  
+				 String k = entry.getKey();      
 				 String v = entry.getValue();   
 				 System.out.println(k + " -- " + v); 
 				 // TODO a_计算结果入库
