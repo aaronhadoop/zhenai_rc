@@ -6,7 +6,7 @@ package com.zhenai.rc.domain;
  */
 public class RCTaskVO2 {
 
-	private Integer dataType;
+	private Integer dataType = 2;
 	private String colName;
 	private Integer timeInerval;
 

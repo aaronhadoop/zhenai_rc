@@ -1,17 +1,30 @@
 package com.zhenai.rc.domain;
 
+/*
+ * 封装页面配置的任务属性
+ * rc_task_conf
+ */
 public class RCTask {
 
 	private Integer fkId;
 	private String taskId;
-	private Integer dataType;
-	private String colName;
+	
+	private Integer dataType; // 1 前置条件 2时间 3 维度 4 指标 
+	private String colName; // 列名
+	
+	// 前置条件
 	private String preCondition;
+	
+	// 时间维度
 	private Integer timeInerval;
+	
+	// 维度
 	private Integer isCollapsed;
 	private String collapsedRule;
-	private Integer indicatorOper;
-	private Integer indicatorOperType;
+	
+	// 指标
+	private Integer indicatorOper; // 1 COUNT 2 COUNT DISTINCT 3 SUM 4 AVG 5 MAX 6 MIN
+	private Integer indicatorOperType; // 0 增量	1 全量
 	private String resColName;
 
 	public Integer getFkId() { 

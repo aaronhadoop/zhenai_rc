@@ -6,7 +6,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+
+import com.zhenai.rc.domain.RCTask;
 
 public class CommonUtils {
 
@@ -47,7 +52,7 @@ public class CommonUtils {
 
 	/**
 	 * 获取两个集合的不同元素,去除重复
-	 * 
+	 *  
 	 * @param collmax
 	 * @param collmin
 	 * @return
@@ -58,6 +63,28 @@ public class CommonUtils {
 //	}
 	
 	public static void main(String[] args) {
+		Set<String> set_old = new HashSet<String>();
+		set_old.add("1006001");
 		
+		Set<String> set_new = new HashSet<String>();
+		set_new.add("1006001");
+		set_new.add("1006002");                                            
+		
+		Collection differ = CommonUtils.getDiffent(set_old, set_new);
+		System.out.println("differ: " + differ);
+		
+		if (differ != null && differ.size() > 0) { // 如果发现有新增的任务
+			for (Object obj : differ) { 
+				System.out.println("(String)obj: " + (String)obj);
+				List<RCTask> rcTaskList = DBUtils.getTaskById((String)obj);
+				System.out.println("rcTaskList: " + rcTaskList);
+//				Map map = new HashMap<String, String>(); 
+//			submitTopology(map); // 将新增任务的配置信息传递给通用的Topology 
+			}                  
+		}
 	}
+
+	 
+	
 }
+

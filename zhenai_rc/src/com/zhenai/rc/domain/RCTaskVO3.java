@@ -2,15 +2,16 @@ package com.zhenai.rc.domain;
 
 public class RCTaskVO3 {
 
-	private String collapsedRule;
+	private Integer dataType = 3;
 	private String colName;
-	private Integer dataType;
-	private Integer isCollapsed;
-
+	private Integer isCollapsed;  
+	private String collapsedRule;       
+	
+	
 	public RCTaskVO3(Integer dataType, String colName, Integer isCollapsed,
 			String collapsedRule) {
 		super();
-		this.dataType = dataType;
+		this.dataType = dataType;      
 		this.colName = colName;
 		this.isCollapsed = isCollapsed;
 		this.collapsedRule = collapsedRule;

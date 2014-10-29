@@ -18,6 +18,8 @@ import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
   
 /*
+ 实际生产中的bolt
+ 
     功能：
  接口过滤   
  1、字段选取
@@ -59,13 +61,19 @@ public class PreBolt extends BaseBasicBolt {
 //    	rcTaskVO4List = (List<String>) conf.get("rcTaskVO4List");
     	                
     	// 实时计算任务配置
-    	rcTaskVO1List.add("1,oper_type,=1");   
+    	rcTaskVO1List.add("1,oper_type,=1");       
     	rcTaskVO2List.add("2,login_time,0");        
-//    	rcTaskVO3List.add("3,pf,1,(1,2),(3,4)");
-    	rcTaskVO3List.add("3	pf	1	(1,2)&(3,4)");
-    	rcTaskVO4List.add("4,user_id,0,0");
-    	rcTaskVO4List.add("4,user_id,1,0");
-    	rcTaskVO4List.add("4,pay_amt,2,0");  
+
+    	// 默认5个维度
+    	rcTaskVO3List.add("3	pf	1	(1,2)&(3,4)"); 
+    	rcTaskVO3List.add("3	age	1	(10,20),(20,30),(30,40)");
+    	rcTaskVO3List.add("3	age	1	100");
+    	rcTaskVO3List.add("3	age	1	100");
+    	rcTaskVO3List.add("3	age	1	100");
+    	
+    	rcTaskVO4List.add("4,user_id,0,0");           
+    	rcTaskVO4List.add("4,user_id,1,0");     
+    	rcTaskVO4List.add("4,pay_amt,2,0");             
     }                              
 	  
 	@Override  
@@ -77,7 +85,7 @@ public class PreBolt extends BaseBasicBolt {
 		System.out.println("###rcTaskVO2List: " + rcTaskVO2List);
 		System.out.println("###rcTaskVO3List: " + rcTaskVO3List);
 		System.out.println("###rcTaskVO4List: " + rcTaskVO4List);
-		         
+		                        
 		try {                                                                                                                      
 			System.setOut(new PrintStream(new FileOutputStream(new File("E:\\0_tmp\\data\\zhenai_rc\\zhenai_rc_PreBolt_result"), true)));
 			System.out.println("\nPreBolt_msg: "+tuple.getString(0) + " -------------counter = " + (counter++));     
@@ -111,7 +119,7 @@ System.out.println("values: " + values);
 									/*
 									 2、 时间维度           	 	   
 									 3、 维度处理     
-									 */  
+									 */        
 									// 取出数据源中的维度
 									String pf = splits[1];
 									// 取出任务配置中的维度
@@ -162,10 +170,10 @@ System.out.println("values: " + values);
 		 if(distinctList.contains(key)) {            
 			isHasValue = true;            
 		 } else {                                            
-			 distinctList.add(key);      
-		 }                 
-	  	                    
-		 if (checkMap()) {                   
+			 distinctList.add(key);               
+		 }                                
+	                                                                                                                                              
+		 if (checkMap()) {                          
 			 String val = storeMap.get(pf);                                      
 			 if(val != null) {                  
 				 String[] vals = val.split(",");    

@@ -64,14 +64,14 @@ public class BAKPreBolt extends BaseBasicBolt {
 			rcTaskVO2List: [2,login_time,0] 
 			rcTaskVO3List: [3,pf,1,(1,2),(3,4)]  
 			rcTaskVO4List: [4,user_id,0,0, 4,user_id,1,0, 4,pay_amt,2,0]
-		 */  
-		System.out.println("2zks: " + zks);        
+		 */            
+		System.out.println("2zks: " + zks);                     
 		System.out.println("3###rcTaskVO1List: " + rcTaskVO1List);
 		System.out.println("4###rcTaskVO2List: " + rcTaskVO2List);
 		System.out.println("5###rcTaskVO3List: " + rcTaskVO3List);
 		System.out.println("6###rcTaskVO4List: " + rcTaskVO4List);
-		                             
-		try {                                                                                                                              
+		                                    
+		try {                                                                                                                                     
 			System.setOut(new PrintStream(new FileOutputStream(new File("E:\\0_tmp\\data\\zhenai_rc\\zhenai_rc_PreBolt_result"), true)));
 			System.out.println("\n7PreBolt_msg: "+tuple.getString(0) + " -------------counter = " + (counter++));     
 			// one tuple one record                                    
@@ -107,7 +107,7 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 							computingIdx(pf, oper_type, user_id, pay_amt);       
 							System.out.println("10computingIdx over..."); 
 						}                           
-					}   
+					}       
 				}   
 			}                        
 			System.out.println("---------------end---------------\n");
@@ -119,9 +119,13 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 	
                                      
 	// 核心函数  指标计算  
+	/*
+	 pf是维度
+	 user_id,pay_amt是计算指标
+	 */
 	private void computingIdx(String pf, String oper_type, String user_id, Double pay_amt) { // key--pf		value--COUNT(user_id),COUNT(DISTINCT(user_id)),SUM(pay_amt)
-		 // 求max、min
-		 String key2 = pf;       
+		 // 求max、min   
+		 String key2 = pf;           
 		 Double max_pay_amt = maxMap.get(key2);
 		 Double min_pay_amt = minMap.get(key2);
 		                 
@@ -132,9 +136,14 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 		 } else {                                         
 			 distinctList.add(key);           
 		 }                   
-		       
-		                       
-		 if (checkMap()) {                                                                  
+		 
+		 /*
+		       不同维度数，有什么不同
+		  (key, val)
+		  key： pf,user_id
+		  */
+		                                            
+		 if (checkMap()) {                                                                          
 			 String val = storeMap.get(pf);                                                   
 			 if(val != null) {                        
 				 String[] vals = val.split(",");        
@@ -159,7 +168,7 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 				 }                                                            
 				 maxMap.put(pf, max_pay_amt);               
 				                                                                                                                                                                                       	
-				 // 最小值                                         	   		 
+				 // 最小值                                         	   		 	
 //				 Double min_pay_amt = maxMap.get(key2);
 //				 if (min_pay_amt == null) {  
 //					 min_pay_amt = Double.MAX_VALUE;
@@ -175,8 +184,8 @@ System.out.println("\n8pf: " + pf + ",oper_type: " + oper_type + ",user_id: " + 
 			 } else {               
 				val = 1 + "," + (isHasValue ? 0 : 1) + "," + pay_amt  + "," + 0  + "," + 0 + "," + 0;   
 				max_pay_amt = pay_amt;              
-				min_pay_amt = pay_amt; 
-				                   
+				min_pay_amt = pay_amt;   
+				                     
 				maxMap.put(pf, max_pay_amt);          
 				minMap.put(pf, min_pay_amt);              
 			}        

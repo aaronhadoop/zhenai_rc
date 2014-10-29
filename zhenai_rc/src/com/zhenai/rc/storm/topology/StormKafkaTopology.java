@@ -13,7 +13,10 @@ import backtype.storm.topology.TopologyBuilder;
                            
 import com.google.common.collect.ImmutableList;
 import com.zhenai.rc.storm.bolt.CounterBolt;
-                  
+  
+/*
+ * Storm、Kafka整合的Topology
+ */
 public class StormKafkaTopology { 
                                 
 	public static void main(String[] args) {

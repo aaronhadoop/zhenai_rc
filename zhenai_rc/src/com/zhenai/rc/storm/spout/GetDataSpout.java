@@ -33,7 +33,7 @@ public class GetDataSpout extends BaseRichSpout {
 	    this.collector = collector;  
 	    this.inputPath = (String)conf.get("INPUT_PATH"); 	  
 	}
-          
+           
 	@Override
 	public void nextTuple() {    
 	    Collection files = FileUtils.listFiles(new File(this.inputPath), FileFilterUtils.notFileFilter(FileFilterUtils.suffixFileFilter(".bak")), null);
@@ -43,18 +43,18 @@ public class GetDataSpout extends BaseRichSpout {
 	        List lines = FileUtils.readLines((File)f, "UTF-8");
 //	        for (String line : lines)
 	        for (Object line : lines) {                                                   
-	        	System.out.println("\n\n----GetDataSpout_line: " + line + " ---- cnt: " + (cnt++));
+	        	System.out.println("\n\n----GetDataSpout_line:	" + line + " ---- cnt: " + (cnt++));
 	        	// 逐行发送 
 	        	this.collector.emit(new Values(new Object[] { line }));
 	        }                     
-	     // change the name of the file
+	     // change the name of the file  
 	        FileUtils.moveFile((File) f, new File(((File) f).getPath() + System.currentTimeMillis() + ".bak")); 
 	      } catch (IOException e) { 
 	        e.printStackTrace();
-	      }  
+	      }               
 	  }   
 	 
-  
+    
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 	    declarer.declare(new Fields(new String[] { "line" }));
