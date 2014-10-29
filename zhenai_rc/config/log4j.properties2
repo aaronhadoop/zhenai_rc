@@ -1,0 +1,19 @@
+log4j.rootLogger=info,files 
+ 
+#\u65e5\u5fd7\u6253\u5370\u5230\u63a7\u5236\u53f0
+log4j.appender.my=org.apache.log4j.ConsoleAppender
+log4j.appender.my.Target=System.out
+log4j.appender.my.layout=org.apache.log4j.PatternLayout
+#log4j.appender.my.layout.ConversionPattern=%d %5p %c{1}:%L - %m%n
+log4j.appender.my.layout.ConversionPattern=%5p %c{1}:%L - %m%n
+
+
+#\u65e5\u5fd7\u5b9a\u5411\u5230\u6587\u4ef6
+log4j.appender.files.layout=org.apache.log4j.PatternLayout
+log4j.appender.files.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
+log4j.appender.files=org.apache.log4j.RollingFileAppender
+log4j.appender.files.File=E:\\0_tmp\\data\\zhenai_rc\\0.txt
+log4j.appender.files.MaxFileSize=100000KB
+
+
+
